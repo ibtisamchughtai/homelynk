@@ -53,8 +53,8 @@ function spaFallback(): Plugin {
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), securityHeaders(), spaFallback()],
-  // Served from https://ibtisamchughtai.github.io/homelynk/ (change to '/' for a custom domain).
-  base: '/homelynk/',
+  // Vercel serves from the domain root; GitHub Pages serves from /homelynk/.
+  base: process.env.VERCEL ? '/' : '/homelynk/',
   build: {
     sourcemap: false,
   },
