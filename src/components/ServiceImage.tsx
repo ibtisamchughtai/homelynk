@@ -6,6 +6,8 @@ type ServiceImageProps = {
   className?: string
 }
 
+const base = import.meta.env.BASE_URL
+
 // Serves the right-sized WebP for the screen and reserves space up front so
 // the layout does not jump while images load.
 export default function ServiceImage({
@@ -17,8 +19,8 @@ export default function ServiceImage({
 }: ServiceImageProps) {
   return (
     <img
-      src={`/images/${slug}-960.webp`}
-      srcSet={`/images/${slug}-480.webp 480w, /images/${slug}-960.webp 960w`}
+      src={`${base}images/${slug}-960.webp`}
+      srcSet={`${base}images/${slug}-480.webp 480w, ${base}images/${slug}-960.webp 960w`}
       sizes={sizes}
       width={960}
       height={636}

@@ -53,7 +53,8 @@ function spaFallback(): Plugin {
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), securityHeaders(), spaFallback()],
-  base: '/',
+  // Served from https://ibtisamchughtai.github.io/homelynk/ (change to '/' for a custom domain).
+  base: '/homelynk/',
   build: {
     sourcemap: false,
   },

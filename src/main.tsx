@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       { path: '*', lazy: page(() => import('./pages/NotFound')) },
     ],
   },
-])
+], { basename: import.meta.env.BASE_URL })
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element #root is missing from index.html')
