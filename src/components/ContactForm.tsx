@@ -115,7 +115,7 @@ export default function ContactForm() {
   const describedBy = (field: Field) => (errors[field] ? `${uid}-${field}-error` : undefined)
 
   const inputClass = (field: Field) =>
-    `block w-full rounded-xl bg-paper px-4 py-3 text-base text-ink ring-1 ring-inset transition-shadow placeholder:text-muted/70 focus:bg-surface focus:ring-2 focus:ring-lynk focus:outline-none ${
+    `block w-full rounded-xl bg-field px-4 py-3 text-base text-ink ring-1 ring-inset transition-shadow placeholder:text-muted focus:bg-surface focus:ring-2 focus:ring-lynk-deep focus:outline-none ${
       errors[field] ? 'ring-danger' : 'ring-line'
     }`
 

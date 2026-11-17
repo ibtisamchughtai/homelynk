@@ -8,10 +8,20 @@ import { nav, site } from '../lib/site'
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [tucked, setTucked] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
+  const lastY = useRef(0)
 
+  // Tuck the header away while scrolling down and bring it back on the way up.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+      if (Math.abs(y - lastY.current) > 6) {
+        setTucked(y > lastY.current && y > 160)
+        lastY.current = y
+      }
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -38,9 +48,12 @@ export default function Navbar() {
   const close = () => setOpen(false)
 
   return (
-    <header
+    <m.header
+      onFocusCapture={() => setTucked(false)}
+      animate={{ y: tucked && !open ? '-100%' : '0%' }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
-        scrolled || open ? 'bg-paper/90 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md' : 'bg-paper'
+        scrolled || open ? 'bg-paper/95 shadow-[0_1px_0_var(--color-line)]' : 'bg-paper'
       }`}
     >
       <nav aria-label="Main" className="container-page flex h-[4.5rem] items-center justify-between gap-6">
@@ -148,6 +161,6 @@ export default function Navbar() {
           </m.div>
         )}
       </AnimatePresence>
-    </header>
+    </m.header>
   )
 }

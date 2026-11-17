@@ -1,6 +1,7 @@
 import { Bell, CalendarCheck, CreditCard, MapPin, MessageCircle, ShieldCheck } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import DownloadBand from '../components/DownloadBand'
+import { Spotlight, Stagger, StaggerItem } from '../components/motion'
 import { site } from '../lib/site'
 import { usePageTitle } from '../lib/usePageTitle'
 
@@ -50,17 +51,23 @@ export default function Features() {
       </PageHeader>
 
       <section aria-label="App features" className="container-page">
-        <ul className="grid gap-px overflow-hidden rounded-[2rem] bg-line ring-1 ring-line sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger
+          as="ul"
+          stagger={0.08}
+          className="grid gap-px overflow-hidden rounded-[2rem] bg-line ring-1 ring-line sm:grid-cols-2 lg:grid-cols-3"
+        >
           {features.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="bg-surface p-8 sm:p-10">
-              <span className="grid size-12 place-items-center rounded-xl bg-lynk-soft text-lynk">
-                <Icon className="size-6" aria-hidden="true" />
-              </span>
-              <h2 className="mt-6 text-2xl font-semibold tracking-tight">{title}</h2>
-              <p className="mt-2 text-muted">{text}</p>
-            </li>
+            <StaggerItem as="li" key={title} className="bg-surface">
+              <Spotlight className="h-full p-8 sm:p-10">
+                <span className="grid size-12 place-items-center rounded-xl bg-lynk-soft text-lynk transition-[scale,rotate,background-color,color] duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-lynk group-hover:text-paper">
+                  <Icon className="size-6" aria-hidden="true" />
+                </span>
+                <h2 className="mt-6 text-2xl font-semibold tracking-tight">{title}</h2>
+                <p className="mt-2 text-muted">{text}</p>
+              </Spotlight>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
       </section>
 
       <DownloadBand />

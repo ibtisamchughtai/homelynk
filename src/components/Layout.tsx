@@ -5,6 +5,7 @@ import { LazyMotion, MotionConfig, m } from 'motion/react'
 const loadMotionFeatures = () => import('../lib/motionFeatures').then((module) => module.default)
 import Navbar from './Navbar'
 import Footer from './Footer'
+import ScrollProgress from './ScrollProgress'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -26,10 +27,11 @@ export default function Layout() {
     <MotionConfig reducedMotion="user">
       <a
         href="#main"
-        className="sr-only z-[100] rounded-full bg-ink px-5 py-3 font-semibold text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        className="sr-only z-[100] rounded-full bg-cta px-5 py-3 font-semibold text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
         Skip to content
       </a>
+      <ScrollProgress />
       <Navbar />
       <m.main
         id="main"
@@ -37,9 +39,9 @@ export default function Layout() {
         key={pathname}
         tabIndex={-1}
         className="outline-none"
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
         <Outlet />
       </m.main>

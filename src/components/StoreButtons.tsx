@@ -16,7 +16,7 @@ export default function StoreButtons() {
           <span className="sr-only">(opens in a new tab)</span>
         </a>
       ) : (
-        <span className="inline-flex min-h-12 items-center justify-center rounded-full px-6 font-semibold text-paper/70 ring-1 ring-paper/25 ring-inset">
+        <span className="inline-flex min-h-12 items-center justify-center rounded-full px-6 font-semibold text-ink ring-1 ring-ink/40 ring-inset">
           App Store coming soon
         </span>
       )}

@@ -3,22 +3,70 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-paper: #f2f3ef;
-  --color-surface: #ffffff;
-  --color-ink: #161a33;
-  --color-muted: #4f5672;
-  --color-line: #dadde3;
-  --color-lynk: #3346d3;
-  --color-lynk-deep: #2433a8;
-  --color-lynk-soft: #e4e7fb;
-  --color-tag: #ffc633;
-  --color-tag-deep: #f2b100;
-  --color-danger: #b42318;
+  /* Dark emerald scheme (from the SCI Plus site). Every text pair meets WCAG AA. */
+  --color-paper: #0b0b0b; /* page background */
+  --color-panel: #111111; /* section panels */
+  --color-surface: #1a1a1f; /* cards and forms */
+  --color-field: #18181b; /* inputs (zinc-900) */
+  --color-ink: #ffffff; /* headings, primary text */
+  --color-body: #cbd5e1; /* body text (slate-300) */
+  --color-muted: #94a3b8; /* secondary text (slate-400) */
+  --color-line: #3f3f46; /* borders (zinc-700) */
+  --color-line-soft: #27272a; /* subtle borders (zinc-800) */
+  --color-line-strong: #52525b; /* outline buttons (zinc-600) */
+  --color-lynk: #34d399; /* accent text and icons (emerald-400) */
+  --color-lynk-deep: #10b981; /* accent borders, focus ring (emerald-500) */
+  --color-lynk-soft: #0f2a22; /* icon tiles (emerald-500 at ~15% on dark) */
+  --color-cta: #059669; /* primary buttons (emerald-600), dark text */
+  --color-cta-hover: #10b981;
+  --color-band: #047857; /* call-to-action banner (emerald-700) */
+  --color-footer: #020617; /* footer (slate-950) */
+  --color-tag: #34d399;
+  --color-tag-deep: #10b981;
+  --color-danger: #f87171;
 
   --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Ambient loops. These use the individual `translate`/`scale` properties so
+     they never fight Motion, which animates `transform`. */
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-aurora: aurora 20s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -12px;
+    }
+  }
+
+  @keyframes aurora {
+    0%,
+    100% {
+      translate: 0 0;
+      scale: 1;
+    }
+    33% {
+      translate: 8% 10%;
+      scale: 1.12;
+    }
+    66% {
+      translate: -6% 4%;
+      scale: 0.94;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
 }
 
 @layer base {
@@ -28,9 +76,11 @@
   }
 
   body {
-    @apply bg-paper font-sans text-ink antialiased;
+    @apply bg-paper font-sans text-body antialiased;
     font-size: 1.0625rem;
     line-height: 1.6;
+    /* Decorative glows can bleed past the edges; never let them add sideways scroll. */
+    overflow-x: clip;
   }
 
   h1,
@@ -46,14 +96,14 @@
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-lynk);
+    outline: 3px solid var(--color-lynk-deep);
     outline-offset: 3px;
     border-radius: 6px;
   }
 
   ::selection {
-    background: var(--color-tag);
-    color: var(--color-ink);
+    background: var(--color-lynk);
+    color: var(--color-paper);
   }
 
   /* Keep anchored sections clear of the sticky header. */
@@ -86,18 +136,37 @@
 }
 
 @utility btn {
-  @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 font-semibold transition-[background-color,color,box-shadow,transform] duration-200 active:scale-[0.97];
+  @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 font-semibold transition-[background-color,color,box-shadow,transform,translate] duration-200 active:scale-[0.97];
   touch-action: manipulation;
 }
 
+/* Solid buttons lift, glow and catch a light sweep on hover. */
+@utility btn-shine {
+  @apply relative isolate overflow-hidden hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-12px_var(--color-lynk-deep)];
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+    translate: -110% 0;
+    transition: translate 0.7s var(--ease-out-soft);
+  }
+
+  &:hover::before {
+    translate: 110% 0;
+  }
+}
+
 @utility btn-primary {
-  @apply btn bg-tag text-ink hover:bg-tag-deep;
+  @apply btn btn-shine bg-cta text-paper hover:bg-cta-hover;
 }
 
 @utility btn-lynk {
-  @apply btn bg-lynk text-white hover:bg-lynk-deep;
+  @apply btn btn-shine bg-cta text-paper hover:bg-cta-hover;
 }
 
 @utility btn-ghost {
-  @apply btn text-ink ring-1 ring-ink/20 ring-inset hover:bg-ink hover:text-paper;
+  @apply btn text-ink ring-1 ring-line-strong ring-inset hover:-translate-y-0.5 hover:text-lynk hover:ring-lynk-deep;
 }

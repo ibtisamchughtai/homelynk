@@ -1,6 +1,7 @@
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import ContactForm from '../components/ContactForm'
+import { Reveal, Stagger, StaggerItem } from '../components/motion'
 import { site } from '../lib/site'
 import { usePageTitle } from '../lib/usePageTitle'
 
@@ -28,10 +29,10 @@ export default function Contact() {
           <h2 id="details-title" className="sr-only">
             Contact details
           </h2>
-          <dl className="divide-y divide-line border-y border-line">
+          <Stagger as="dl" stagger={0.1} delay={0.3} className="divide-y divide-line border-y border-line">
             {details.map(({ icon: Icon, label, value, href }) => (
-              <div key={label} className="flex items-start gap-4 py-5">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-lynk-soft text-lynk">
+              <StaggerItem key={label} className="group flex items-start gap-4 py-5">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-lynk-soft text-lynk transition-[scale,rotate,background-color,color] duration-300 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-lynk group-hover:text-paper">
                   <Icon className="size-5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
@@ -46,12 +47,14 @@ export default function Contact() {
                     )}
                   </dd>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </dl>
+          </Stagger>
         </section>
 
-        <ContactForm />
+        <Reveal delay={0.4}>
+          <ContactForm />
+        </Reveal>
       </div>
     </>
   )
